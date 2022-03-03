@@ -5,3 +5,5 @@ setTimeout(() => {
 const testFunction = () => {
   console.log('tHIS IS AN ARROW FUNCTION');
 };
+
+console.log('Second line added to file3.js');

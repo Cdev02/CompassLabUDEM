@@ -5,3 +5,5 @@ setTimeout(() => {
 }, 3000);
 
 console.log('This is another line in idex.js');
+
+console.log('Another line added to index.js');
