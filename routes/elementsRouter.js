@@ -11,7 +11,7 @@ router.post("/test", async(req, res) =>{
     const { cod_elemento, num_inventario, nombre_elemento, cantidad, marco, modelo, 
             tipo, serie, fecha_actu, estado, observaciones} = req.body;
     const newElemento = await db.query("INSERT INTO elementos (cod_elemento, num_inventario, nombre_elemento, cantidad, marco, modelo, " + 
-                                         "tipo, serie, fecha_actu, estado, observaciones) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+                                         "tipo, serie, fecha, estado, observaciones) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
                                          [cod_elemento, num_inventario, nombre_elemento, cantidad, marco, modelo, 
                                           tipo, serie, fecha_actu, estado, observaciones]);
     res.json(newElemento);
