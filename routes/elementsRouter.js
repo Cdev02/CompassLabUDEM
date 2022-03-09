@@ -83,7 +83,7 @@ router.patch('/:id', async (req, res) => {
     } = req.body;
     const newElement = await db.query(
       `UPDATE elemento SET numero_inventario = $1, nombre_elemento = $2, cantidad = $3, marco = $4, 
-      modelo = $5, tipo = $6, serie = $7, fecha_actualizacion = $8, estado = $9, observaciones = $10) 
+      modelo = $5, tipo = $6, serie = $7, fecha_actualizacion = $8, estado = $9, observaciones = $10 
       WHERE codigo_elemento = $11`,
       [
         numero_inventario,
