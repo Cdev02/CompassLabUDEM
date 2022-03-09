@@ -6,7 +6,7 @@ const db = require(`${__dirname}/../db/dbConnection`);
 // Aquí van los routes para la tabla elementos
 
 //Crear un elemento
-router.post("/test", async(req, res) =>{
+router.post("/", async(req, res) =>{
   try {
     const { cod_elemento, num_inventario, nombre_elemento, cantidad, marco, modelo, 
             tipo, serie, fecha_actu, estado, observaciones} = req.body;
@@ -21,7 +21,7 @@ router.post("/test", async(req, res) =>{
 });
 
 //Consultar todos los elementos
-router.get("/test", async(req, res) => {
+router.get("/", async(req, res) => {
   try {
     const allElements = await db.query("SELECT * FROM elementos");
     res.json({status:"succes", data:allElements.rows});
@@ -30,7 +30,7 @@ router.get("/test", async(req, res) => {
   }
 });
 //Consultar un elemento
-router.get("/test/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const element = await db.query("SELECT * FROM elementos WHERE cod_elemento	= $1", [id]);
@@ -41,10 +41,22 @@ router.get("/test/:id", async (req, res) => {
 });
 
 //Actualizar un elemento
-// router.patch();
+router.patch("/:id", async (req, res) => {
+  try {
+    const { cod_elemento, num_inventario, nombre_elemento, cantidad, marco, modelo, 
+      tipo, serie, fecha_actu, estado, observaciones} = req.body;
+      const newElemento = await db.query("UPDATE elementos SET num_inventario = $1, nombre_elemento = $2, cantidad = $3, marco = $4, modelo = $5, " + 
+                                          "tipo = $6, serie = $7, fecha = $8, estado = $9, observaciones = $10) WHERE cod_elemento = $11",
+                                          [num_inventario, nombre_elemento, cantidad, marco, modelo, 
+                                          tipo, serie, fecha_actu, estado, observaciones, cod_elemento]);
+    res.json("Elemento actualizado");
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 
 //Eliminar un elemento
-router.delete("/test/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const {id} = req.params;
     const deleteElement = await db.query("DELETE FROM elementos WHERE cod_elemento = $1", [id]);
