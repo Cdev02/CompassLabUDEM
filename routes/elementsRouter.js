@@ -8,7 +8,6 @@ const db = require(`${__dirname}/../db/dbConnection`);
 router.post('/', async (req, res) => {
   try {
     const {
-      codigo_elemento,
       numero_inventario,
       nombre_elemento,
       cantidad,
@@ -16,7 +15,6 @@ router.post('/', async (req, res) => {
       modelo,
       tipo,
       serie,
-      fecha_actualizacion,
       estado,
       observaciones,
     } = req.body;
@@ -69,7 +67,6 @@ router.get('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     const {
-      codigo_elemento,
       numero_inventario,
       nombre_elemento,
       cantidad,
@@ -96,7 +93,7 @@ router.patch('/:id', async (req, res) => {
         fecha_actualizacion,
         estado,
         observaciones,
-        codigo_elemento,
+        req.params.id,
       ]
     );
     res.json({ status: 'Elemento actualizado', data: newElement });
@@ -109,10 +106,7 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteElement = await db.query(
-      'DELETE FROM elemento WHERE codigo_elemento = $1',
-      [id]
-    );
+    await db.query('DELETE FROM elemento WHERE codigo_elemento = $1', [id]);
     res.json({ status: 'Elemento eliminado' });
   } catch (error) {
     console.error(error.message);
