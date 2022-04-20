@@ -58,12 +58,16 @@ router.get("/:id", async (req, res) => {
 router.patch("/:id", async (req, res) => {
     try {
       const {
+        codigo_ficha,
+        codigo_elemento,
         usuario,
         fecha_registro,
       } = req.body;
       const newElement = await db.query(
-        `UPDATE registro usuario = $1, fecha_registro = $2 WHERE codigo_ficha = $3 AND codigo_elemento = $4`,
+        `UPDATE registro codigo_ficha = $1, codigo_elemento = $2, usuario = $3, fecha_registro = $4 WHERE codigo_ficha = $5 AND codigo_elemento = $6`,
         [
+            codigo_ficha,
+            codigo_elemento,
             usuario,
             fecha_registro,
         ]
