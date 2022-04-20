@@ -8,7 +8,6 @@ const db = require(`${__dirname}/../db/dbConnection`);
 router.post("/", async (req, res) => {
   try {
     const {
-      codigo,
       fecha_creacion,
       version,
       id_laboratorio,
@@ -18,11 +17,10 @@ router.post("/", async (req, res) => {
     } = req.body;
     const newElement = await db.query(
       `INSERT INTO ficha
-         (codigo, fecha_creacion, version, id_laboratorio, id_laboratorio,
+         (fecha_creacion, version, id_laboratorio,
             nombre_procedimiento, capacidad, observaciones) 
-         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+         VALUES ($1, $2, $3, $4, $5, $6)`,
       [
-        codigo,
         fecha_creacion,
         version,
         id_laboratorio,
