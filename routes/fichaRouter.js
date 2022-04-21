@@ -8,25 +8,18 @@ const db = require(`${__dirname}/../db/dbConnection`);
 router.post("/", async (req, res) => {
   try {
     const {
-      fecha_creacion,
-      version,
       id_laboratorio,
-      nombre_procedimiento,
-      capacidad,
-      observaciones,
+      fecha_emision,
+      version,
     } = req.body;
     const newElement = await db.query(
       `INSERT INTO ficha
-         (fecha_creacion, version, id_laboratorio,
-            nombre_procedimiento, capacidad, observaciones) 
-         VALUES ($1, $2, $3, $4, $5, $6)`,
+         (id_laboratorio, fecha_emision, version) 
+         VALUES ($1, $2, $3)`,
       [
-        fecha_creacion,
-        version,
         id_laboratorio,
-        nombre_procedimiento,
-        capacidad,
-        observaciones,
+        fecha_emision,
+        version,
       ]
     );
     res.json({ status: "Success", newElement });
@@ -49,7 +42,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { codigo } = req.params;
-    const element = await db.query("SELECT * FROM ficha WHERE codigo	= $1", [
+    const element = await db.query("SELECT * FROM ficha WHERE codigo_ficha	= $1", [
       codigo,
     ]);
     res.json({ status: "success", data: element.rows[0] });
@@ -62,23 +55,16 @@ router.get("/:id", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const {
-      fecha_creacion,
-      version,
       id_laboratorio,
-      nombre_procedimiento,
-      capacidad,
-      observaciones,
+      fecha_emision,
+      version,
     } = req.body;
     const newElement = await db.query(
-      `UPDATE ficha fecha_creacion = $1, version = $2, id_laboratorio = $3, nombre_procedimiento = $4,
-      capacidad = $5, observaciones = $6 WHERE codigo = $7`,
+      `UPDATE ficha id_laboratorio = $1, fecha_emision = $2, version = $3 WHERE codigo = $7`,
       [
-        fecha_creacion,
-        version,
         id_laboratorio,
-        nombre_procedimiento,
-        capacidad,
-        observaciones,
+        fecha_emision,
+        version,
       ]
     );
     res.json({ status: "Ficha actualizada", data: newElement });
@@ -91,8 +77,8 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const { codigo } = req.params;
-    await db.query("DELETE FROM ficha WHERE codigo = $1", [codigo]);
-    res.json({ status: "Laboratorista eliminado" });
+    await db.query("DELETE FROM ficha WHERE codigo_ficha = $1", [codigo]);
+    res.json({ status: "ficha eliminada" });
   } catch (error) {
     console.error(error.message);
   }
