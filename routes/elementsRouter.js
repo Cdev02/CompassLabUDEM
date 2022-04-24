@@ -1,7 +1,7 @@
 const Router = require('express-promise-router');
 const router = new Router();
 const db = require(`${__dirname}/../db/dbConnection`);
-
+const exportItemsToExcel = require(`${__dirname}/../utils/exportExcel`);
 // Aquí van los routes para la tabla elementos
 
 //Crear un elemento
@@ -40,7 +40,31 @@ router.post('/', async (req, res) => {
     console.error(error.message);
   }
 });
-
+//Exportar elementos a excel
+router.post('/exportToExcel', async (req, res) => {
+  try {
+    const allElements = await db.query('SELECT * FROM elemento');
+    const workSheetColumnName = [
+      'CODIGO_ELEMENTO',
+      'NUMERO_INVENTARIO',
+      'NOMBRE',
+      'CANTIDAD',
+      'MARCA',
+      'MODELO',
+      'TIPO',
+      'SERIE',
+      'FECHA_ACTUALIZACION',
+      'ESTADO',
+      'OBSERVACIONES',
+    ];
+    const workSheetName = 'Elementos';
+    const filePath = './elementos.xlsx';
+    exportItemsToExcel(allElements.rows, workSheetColumnName, workSheetName, filePath);
+    res.json({ status: 'success', data: allElements.rows });
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 //Consultar todos los elementos
 router.get('/', async (req, res) => {
   try {
