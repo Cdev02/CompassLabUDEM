@@ -10,5 +10,5 @@ app.use('/api/v1/elementos', elementsRouter);
 app.use('/api/v1/laboratorios', labsRouter);
 app.use('/api/v1/laboratoristas', laboratoristsRouter);
 app.use('/api/v1/ficha', fichaRouter);
-app.use('/api/v1/laboraoristasACargo', labCargoRouter);
+app.use('/api/v1/laboratoristasACargo', labCargoRouter);
 module.exports = app;
