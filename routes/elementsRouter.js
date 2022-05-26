@@ -11,28 +11,30 @@ router.post('/', async (req, res) => {
       numero_inventario,
       nombre_elemento,
       cantidad,
-      marco,
+      marca,
       modelo,
       tipo,
       serie,
       estado,
       observaciones,
+      descripcion
     } = req.body;
     const newElement = await db.query(
       `INSERT INTO elemento
        (numero_inventario, nombre_elemento,
-       cantidad, marco, modelo, tipo, serie, estado, observaciones) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+       cantidad, marca, modelo, tipo, serie, estado, observaciones,descripcion) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
       [
         numero_inventario,
         nombre_elemento,
         cantidad,
-        marco,
+        marca,
         modelo,
         tipo,
         serie,
         estado,
         observaciones,
+        descripcion
       ]
     );
     res.json({ status: 'Success', newElement });
@@ -56,6 +58,7 @@ router.post('/exportToExcel', async (req, res) => {
       'FECHA_ACTUALIZACION',
       'ESTADO',
       'OBSERVACIONES',
+      'DESCRIPCION'
     ];
     const workSheetName = 'Elementos';
     const filePath = './elementos.xlsx';
